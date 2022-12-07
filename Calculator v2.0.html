@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        /* Design of Heart */
+        
+        .heart {
+            display: flex;
+        }
+        
+        .box::before {
+            content: "";
+            background-color: red;
+            height: auto;
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            /* right: 20px; */
+            bottom: 55px;
+            border-radius: 100%;
+        }
+        
+        .box::after {
+            content: "";
+            background-color: red;
+            height: auto;
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            right: 50px;
+            border-radius: 100%;
+        }
+        
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            margin: 30px;
+            animation-name: heart;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            cursor: none;
+        }
+        
+        @keyframes heart {
+            0% {
+                transform: scale(0.7) rotate(45deg);
+            }
+            50% {
+                transform: scale(0.5) rotate(45deg);
+            }
+            100% {
+                transform: scale(0.7) rotate(45deg);
+            }
+        }
+        /* Design of Calculator */
+        
+        .container {
+            position: relative;
+            margin: 40px auto 100px auto;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 0, 0, 0.74);
+            align-items: center;
+            width: 500px;
+            height: auto;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.774), 0 6px 6px rgba(0, 0, 0, 0.23);
+        }
+        
+        #input {
+            width: 80%;
+            padding: 5px 10px;
+            margin: 25px 5px 15px 5px;
+            font-size: 25px;
+            outline: none;
+            border: 2px solid blue;
+            border-radius: 4px;
+            text-align: end;
+            font-weight: bold;
+            color: darkblue;
+            cursor: not-allowed;
+        }
+        
+        .col {
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            padding: 5px;
+            border-radius: 5px;
+            margin: 10px;
+            width: 100%;
+        }
+        
+        .button {
+            font-weight: bold;
+            font-size: 30px;
+            border-radius: 3px;
+            border: none;
+            outline: none;
+            color: white;
+            background-color: brown;
+            cursor: pointer;
+            margin: 5px;
+            padding: 0 15px;
+            width: auto;
+        }
+        
+        .button:active {
+            background-color: chartreuse;
+            color: darkblue;
+        }
+        
+        .equ {
+            background-color: chartreuse;
+            color: darkblue;
+        }
+        
+        .equ:active {
+            background-color: brown;
+            color: white;
+        }
+        
+        @media (max-width: 700px) {
+            .container {
+                position: relative;
+                width: 500px;
+            }
+            .col {
+                width: 50%;
+            }
+            .button {
+                font-size: 20px;
+            }
+            .heart {
+                display: none;
+            }
+        }
+        
+        ;
+    </style>
+</head>
+
+<body>
+    <!-- Heart Structure -->
+    <div class="heart">
+        <div class="box"></div>
+        <span style="color: red; font-size: 24px; margin: 40px; cursor: none;">Made By Mayur Gogoi</span>
+    </div>
+    <!-- Calculator Structure -->
+    <div class="container">
+        <!--Display of Calculator-->
+        <input type="text" id="input">
+        <br>
+        <!-- First column buttons -->
+        <div style="display: flex; flex-direction: row;">
+            <div class="col">
+                <input class="button" type="button" value="(">
+                <input class="button" type="button" value="7">
+                <input class="button" type="button" value="4">
+                <input class="button" type="button" value="1">
+                <input class="button" type="button" value="C">
+            </div>
+            <!-- Second column buttons -->
+            <div class="col" style="margin: 10px 25px;">
+                <input class="button" type="button" value=")">
+                <input class="button" type="button" value="8">
+                <input class="button" type="button" value="5">
+                <input class="button" type="button" value="2">
+                <input class="button" type="button" value="0">
+            </div>
+            <!-- Third column buttons -->
+            <div class="col" style="margin: 10px 25px;">
+                <input class="button" type="button" value="%">
+                <input class="button" type="button" value="9">
+                <input class="button" type="button" value="6">
+                <input class="button" type="button" value="3">
+                <input class="button" type="button" value=".">
+            </div>
+            <!-- Fourth column buttons -->
+            <div class="col">
+                <input class="button" type="button" value="/">
+                <input class="button" type="button" value="*">
+                <input class="button" type="button" value="-">
+                <input class="button" type="button" value="+">
+                <input class="button equ" type="button" value="=">
+            </div>
+        </div>
+    </div>
+
+    <!-- Javascript Code is Below -->
+    <script>
+        var calcDisplay = "";
+        const buttons = document.querySelectorAll(".button");
+
+        for (button of buttons) {
+            button.addEventListener('click', function(e) {
+                btn = (e.target.value);
+
+                if (btn == "=") {
+                    calcDisplay = eval(calcDisplay)
+                    document.getElementById("input").value = calcDisplay;
+                } else if (btn == "(") {
+                    if (calcDisplay == "") {
+                        calcDisplay += btn;
+                        document.getElementById('input').value = calcDisplay;
+                    } else {
+                        calcDisplay += ("*" + (btn));
+                        document.getElementById('input').value = calcDisplay;
+                    };
+                } else if (btn == "%") {
+                    var p = eval(calcDisplay);
+                    calcDisplay = Number(p * 100);
+
+                    if (calcDisplay < 100) {
+                        document.getElementById('input').value = eval(calcDisplay);
+                    } else {
+                        document.getElementById('input').value = eval(p / 100);
+                    };
+                } else if (btn == "C") {
+                    location.reload();
+                    document.getElementById('input').value = "";
+                } else if (btn == ")") {
+                    if (calcDisplay == "") {
+                        document.getElementById('input').value = "";
+                    } else {
+                        calcDisplay += btn;
+                        document.getElementById('input').value = calcDisplay;
+                    };
+                } else {
+                    calcDisplay += btn;
+                    document.getElementById("input").value = calcDisplay;
+                };
+            });
+        };
+    </script>
+</body>
+
+</html>
